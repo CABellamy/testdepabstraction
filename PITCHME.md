@@ -17,34 +17,30 @@ Tests should describe a case/event
 ### Brittle tests
 
 ```
-func testLogin() {
-    var driver = new Webdriver();
-    driver.open("https://github.com");
-    var signInLink = driver.findElement(By.linkText("Sign In"));
-    element.click();
-    driver.waitForPageToload("1000");
-    driver.type("name=login", "username");
-    driver.type("name=password", "password");
-    driver.click("name=commit");
+public function testLogin() {
+    $driver = new Webdriver();
+    $driver->get("https://github.com");
+    $signInLink = driver->findElement(By->linkText("Sign In"));
+    $signInLink.click();
 }
 ```
 
-Why is this bad?
+# Why is this bad?
 
 +++
 
-#### The link text changes to 'log in'?
+Test code is tightly coupled
 
-#### The form changes IDs?
+The link text changes to 'log in'?
 
-#### What if there's an AB test for log on?
+The form changes IDs?
 
-+++
-
-Broken tests
+What if there's an AB test for log on?
 
 +++
 
+The test breaks
+ 
 ---
 
 # What can we do?
@@ -54,30 +50,59 @@ Broken tests
 # Refactor
 
 ```
-func testLogin() {
-    var driver = new Webdriver();
-    driver.open("https://github.com");
+public function testLogin() {
+    $driver = new Webdriver();
+    $driver->get("https://github.com");
 ```
 +++
+# becomes
+```
+public function testLogin(Portal $portal) {
+    $portal->navigateToHomepage();
+}
+```
 
-func testLogin() {
-    navigateToHomepage();
+```
+//some config code to set up environment during initialisation of tests
+
+var homepage = config.currentEnv.homePage();
+
+function navigateToHomepage() {
+    driver.open(homepage);
 }
 
+```
 +++
 
-```
-//some config switching code to set up environment during initialisation
+Move the test dependency (URL) away from the test
 
-var homepage = config.currentEnv.homePage
-
-func navigateToHomepage(driver) {
-    driver.open(homepage)
-}
-
-```
-
-+++
+Use the same test for multiple environments
 
 ---
 
+Old way
+
+```
+    driver.type("name=login", "username");
+    driver.type("name=password", "password");
+    driver.click("name=commit");
+```
+
++++
+
+Page object pattern
+
+```
+function testLogin(){
+    navigateToHomepage();
+    login(account: {
+        username: 'test',
+        password: 'password'
+    });
+}
+```
+```
+function login(account) {
+    driver.findElement(By.linkText("Sign In"));
+    driver.type
+}
