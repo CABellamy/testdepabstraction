@@ -162,3 +162,22 @@ class HomePage {
     }
 }
 ```
+---
+Moved the test concerns away from the test fixture
+
+Page changes. Update once 
+
+Test code doesn't have to change
+
+---
+
+Dependency inversion principle
+
+Tell don't ask
+
+Easier to maintain and read
+
+---
+
+Thanks
+
