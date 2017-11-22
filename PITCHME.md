@@ -75,7 +75,7 @@ The test breaks
 public function testLogin() 
 {
     $driver = new Webdriver();
-    $driver->get("https://github.com");
+    $driver->get("https://mywebsite.com");
 ```
 +++
 # becomes
@@ -93,7 +93,7 @@ $homepage = config->currentEnv->homePage();
 
 public function navigateToHomepage() 
 {
-    driver.open($homepage);
+    $this->driver->get('https://mywebsite.com');
 }
 
 ```
@@ -108,9 +108,8 @@ Use the same test for multiple environments
 Old way
 
 ```
-    driver.type("name=login", "username");
-    driver.type("name=password", "password");
-    driver.click("name=commit");
+    $usernameField = driver->findElement(WebDriverBy::id('Username'));
+    $usernameField->sendKeys('username');
 ```
 
 +++
@@ -118,21 +117,48 @@ Old way
 Page object pattern
 
 ```
-class HomePage {
-
-}
-
 function testLogin()
 {
     navigateToHomepage();
-    login(account: {
-        username: 'test',
-        password: 'password'
-    });
+    $account = [
+        "username"=>"test",
+        "password"=>"password"
+    ];
+    $homepage = new Homepage();
+    $homepage->login($account);
 }
 ```
++++
 ```
-function login(account) {
-    driver.findElement(By.linkText("Sign In"));
-    driver.type
+class HomePage {
+    const USERNAME_FIELD_SELECTOR = 'input#username.text-input';
+
+    const PASSWORD_FIELD_SELECTOR = 'input#password.text-input';
+
+    const SUBMIT_BUTTON_SELECTOR = 'input[type=submit]';
+...
+```
++++
+```
+...
+    function login(account) {
+        //find username field and enter username
+        $usernameField = driver->findElement(
+            WebDriverBy::CssSelector(static::USERNAME_FIELD_SELECTOR)
+        );
+        $usernameField->sendKeys($account['username']);
+
+        //find password field and enter password
+        $passwordField = driver->findElement(
+            WebDriverBy::CssSelector(static::PASSWORD_FIELD_SELECTOR)
+        );
+        $passwordField->sendKeys($account['password']);
+
+        //find submit button and click
+        $submitButton = driver->findElement(
+            WebDriverBy::CssSelector(static::SUBMIT_BUTTON_SELECTOR)
+        );
+        $submitButton->click();
+    }
 }
+```
