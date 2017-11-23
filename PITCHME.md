@@ -6,11 +6,11 @@
 
 ---
 
-### Testing dependencies 
+### Test dependencies 
 
 Tests (detail) depend on abstraction 
 
-Tests should describe a case/event 
+Automated tests should describe a case/event and/or assert an outcome
 
 ---
 
@@ -55,7 +55,7 @@ Test code is tightly coupled to execution
 
 If link text changes to 'log in'
 
-The form changes IDs
+The form changes IDs in the HTML code
 
 What if there's an AB test for log on
 
