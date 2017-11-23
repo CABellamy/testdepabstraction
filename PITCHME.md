@@ -128,6 +128,7 @@ function testLogin()
     $homepage->login($account);
 }
 ```
+
 +++
 ```
 class HomePage {
@@ -142,19 +143,16 @@ class HomePage {
 ```
 ...
     function login(account) {
-        //find username field and enter username
         $usernameField = driver->findElement(
             WebDriverBy::CssSelector(static::USERNAME_FIELD_SELECTOR)
         );
         $usernameField->sendKeys($account['username']);
 
-        //find password field and enter password
         $passwordField = driver->findElement(
             WebDriverBy::CssSelector(static::PASSWORD_FIELD_SELECTOR)
         );
         $passwordField->sendKeys($account['password']);
 
-        //find submit button and click
         $submitButton = driver->findElement(
             WebDriverBy::CssSelector(static::SUBMIT_BUTTON_SELECTOR)
         );
@@ -162,6 +160,7 @@ class HomePage {
     }
 }
 ```
+@[1-5](find username field and enter username) @[6-10](find password field and enter password) @[12-16](find submit button and click)
 ---
 Moved the test concerns away from the test fixture
 
