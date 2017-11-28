@@ -170,7 +170,7 @@ class HomePage {
 @[1-5](Move css selectors into HomePage object)
 @[8-12](find username field and enter username) 
 @[14-18](find password field and enter password) 
-@[20-24](find submit button and click)
+@[19-23](find submit button and click)
 ---
 Moved the test concerns away from the test fixture
 
