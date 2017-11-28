@@ -40,12 +40,23 @@ public function testLoginSuccess()
     $submitButton->click();
 
     //assert that success text is displayed
-    $successText = driver->findElements(WebDriverBy::id('SuccessText'));
+    $successText = driver->findElements(WebDriverBy::className('SuccessText'));
     AssertNotEmpty($successText);
 }
 ```
+@[1-5](initialise a driver object and get the website)
+@[7-10](find a link with the text 'Sign In')
+@[12-15](find an element with the ID 'Username' and send some keypresses)
+@[17-20](same as above but for password)
+@[22-25](find the 'Submit' element and click it)
+@[27-30](find all elements with classname 'SuccessText' and assert the array is not empty)
++++
 
-# Why is this bad?
+Seems like a perfectly reasonable test. Asserts an outcome. Let's ship it!
+
++++
+
+# We can make this better
 
 +++
 
@@ -57,7 +68,7 @@ If link text changes to 'log in'
 
 The form changes IDs in the HTML code
 
-What if there's an AB test for log on
+What if there's an AB test for log on?
 
 +++
 
@@ -137,11 +148,7 @@ class HomePage {
     const PASSWORD_FIELD_SELECTOR = 'input#password.text-input';
 
     const SUBMIT_BUTTON_SELECTOR = 'input[type=submit]';
-...
-```
-+++
-```
-...
+
     function login(account) {
         $usernameField = driver->findElement(
             WebDriverBy::CssSelector(static::USERNAME_FIELD_SELECTOR)
@@ -160,15 +167,18 @@ class HomePage {
     }
 }
 ```
-@[1-5](find username field and enter username) 
-@[6-10](find password field and enter password) 
-@[12-16](find submit button and click)
+@[1-5](Move css selectors into HomePage object)
+@[8-12](find username field and enter username) 
+@[14-18](find password field and enter password) 
+@[20-24](find submit button and click)
 ---
 Moved the test concerns away from the test fixture
 
 Page changes. Update once 
 
 Test code doesn't have to change
+
+Code reuse. Call the login method in Homepage object instead of the test
 
 ---
 
