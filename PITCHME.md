@@ -45,11 +45,11 @@ public function testLoginSuccess()
 }
 ```
 @[1-5](initialise a driver object and get the website)
-@[7-10](find a link with the text 'Sign In')
-@[11-14](find an element with the ID 'Username' and send some keypresses)
-@[16-19](same as above but for password)
-@[21-24](find the 'Submit' element and click it)
-@[26-29](find all elements with classname 'SuccessText' and assert the array is not empty)
+@[7-9](find a link with the text 'Sign In')
+@[11-13](find an element with the ID 'Username' and send some keypresses)
+@[15-17](same as above but for password)
+@[19-21](find the 'Submit' element and click it)
+@[23-25](find all elements with classname 'SuccessText' and assert the array is not empty)
 +++
 
 Seems like a perfectly reasonable test. Asserts an outcome. Let's ship it!
